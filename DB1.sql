@@ -1,30 +1,38 @@
 
 
-create table area(areaId number(3) primary key,
-                  areaName varchar(20));
-                  
-create table city(cityName  varchar(20) primary key,
-                  areaId    number(3) references  area);
 
-create table agent(agentID    number(9) primary key,   
-                   agentName  varchar(20), 
-				   areaID     number(3) references  area, 
-				   Rating     number(2), 
-				   HireYear   number(4), 
-				   bossID     number(9), 
-				   salary     float);
+CREATE TABLE Lawyer
+(
+  Lid VARCHAR(9) NOT NULL,
+  Name VARCHAR(20) NOT NULL,
+  Seniority INT NOT NULL,
+  Cost INT NOT NULL,
+  Cell_number VARCHAR(10) NOT NULL,
+  PRIMARY KEY (Lid)
+);
 
-create table client(clientID    number(9) primary key, 
-                    clientName  varchar(20), 
-					          agentID     number(9) references  agent, 
-					          phoneNr     varchar(10), 
-					          Address     varchar(25), 
-					          cityName    varchar(20) references city);
+CREATE TABLE Area
+(
+  Aid INT NOT NULL,
+  PRIMARY KEY (Aid)
+);
 
-create table schedule(agentId  number(9),
-                      clientId number(9),
-                      meetingTime date,
-					            primary key (agentId, clientId, meetingTime),
-					            foreign key (agentId) references  agent,
-					            foreign key (clientId) references client);
-					  
+CREATE TABLE Claims
+(
+  Cid INT NOT NULL,
+  Claim_Status VARCHAR(15) NOT NULL,
+  Lid VARCHAR(9) NOT NULL,
+  PRIMARY KEY (Cid),
+  FOREIGN KEY (Lid) REFERENCES Lawyer(Lid)
+);
+
+CREATE TABLE Building_permit
+(
+  Bid INT NOT NULL,
+  permit_Status VARCHAR(15) NOT NULL,
+  Lid VARCHAR(9) NOT NULL,
+  Aid INT NOT NULL,
+  PRIMARY KEY (Bid),
+  FOREIGN KEY (Lid) REFERENCES Lawyer(Lid),
+  FOREIGN KEY (Aid) REFERENCES Area(Aid)
+);  		  
