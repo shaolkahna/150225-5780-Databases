@@ -31,8 +31,9 @@ where aid in(
                     and building_permit.permit_status = 'close'
                ) ;  
 
-select cid, claim_status from claims
-where lid in(
-          select lid from lawyer
+SELECT COUNT(claim_status), claim_status FROM claims
+where lid in (select lid from lawyer
                     where lawyer.seniority >5
-                    and lawyer.cost>23000 ) ;  
+                    and lawyer.cost>23000  ;(  
+GROUP BY claim_status;
+
