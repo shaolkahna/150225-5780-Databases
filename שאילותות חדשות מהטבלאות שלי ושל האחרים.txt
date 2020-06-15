@@ -1,0 +1,18 @@
+
+נותן את כל דרכי ההתקשרות (שם, אימייל, ומספר) של הקבלנים שעל הפרויקטים שהם עובדים יש תביעה והוא נמצא בסטטוס "בבית משפט" כלומר נמצא עכשיו באמצע דיון על זה
+select daysi.contractor.contractorname,daysi.contractor.email,daysi.contractor.phonenumberc  from daysi.contractor
+where daysi.contractor.cid in(
+            select cid from claims natural join daysi.constructionproject
+            where claims.claim_status = 'at court'
+            );
+
+כל הפרויקטים  שהטיפול עם  האישור בניה הסתיים דהיינו אפשר להמשיך עם הפרויקט
+select * from daysi.constructionproject 
+where  daysi.constructionproject.pid in(
+                                      select pid from building_permit
+                                      where building_permit.permit_status = 'close') ; 
+
+את שם העורך דין המטפל באישור בניה ואת שם הקבלן של כל הפרויקטים שיש להם אישורי בניה
+select distinct name, contractorname  from  daysi.contractor 
+natural join lawyer  natural join daysi.constructionproject 
+natural join building_permit;
