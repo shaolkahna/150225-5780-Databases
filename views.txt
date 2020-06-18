@@ -1,0 +1,37 @@
+create or replace view Total_for_claims as
+select lid, c, cost, c*cost as Total
+from lawyer natural join (
+select lid ,count(*) as c
+from claims natural join lawyer
+where claim_status = 'at court'
+group by lid
+order by c);
+
+create or replace view Total_for_building_p as
+select lid, c, cost, c*cost as Total
+from lawyer natural join (
+select lid ,count(*) as c
+from building_permit natural join lawyer
+where permit_status = 'in process'
+group by lid
+order by c);
+
+
+create or replace view Total_permit_in_area as
+select aid,areaname,c
+from area natural join(
+select aid ,count(*) as c
+from area natural join building_permit
+where permit_status = 'in process'
+group by aid
+order by c);
+
+
+create or replace view Total_claims_in_area as
+select aid,areaname,c
+from area natural join(
+select aid ,count(*) as c
+from area natural join claims
+where claim_status = 'at court' or claim_status = 'appeal'
+group by aid
+order by c);
