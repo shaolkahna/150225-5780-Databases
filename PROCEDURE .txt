@@ -1,0 +1,39 @@
+CREATE OR REPLACE PROCEDURE New_claim_integrity_check (id1 in number) 
+is
+       lawyer_id number;  
+BEGIN
+       select max(claims.claimsid)
+       into claims_max_id
+       from claims;
+       claims_max_id := claims_max_id+1;
+
+       IF id1 >=100000001 and id1 <=100200999  THEN
+          dbms_output.put_line ('lawyer id ' || id1   || ' fond in lawyer list '|| id1);
+          dbms_output.put_line ('The new claim number should be '|| claims_max_id);        
+       ELSE
+          dbms_output.put_line ('lawyer id ' || id1   ||' not fond in lawyer list ');
+       END IF;
+       
+END;
+
+
+CREATE OR REPLACE PROCEDURE New_permit_integrity_check (id1 in number)
+is
+       permit_max_id number;
+BEGIN
+       select max(building_permit.bid)
+       into permit_max_id
+       from building_permit;
+       permit_max_id := permit_max_id+1;
+
+       IF id1 >=100000001 and id1 <=100200999  THEN
+          dbms_output.put_line ('lawyer id ' || id1   || ' fond in lawyer list ');
+          dbms_output.put_line ('The new permit number should be '|| permit_max_id);
+       ELSE
+          dbms_output.put_line ('lawyer id ' || id1   ||' not fond in lawyer list ');
+       END IF;
+
+END;
+
+
+

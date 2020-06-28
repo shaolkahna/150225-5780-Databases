@@ -1,0 +1,35 @@
+create or replace function claims_salary_function (id1 in number)
+  return number is FunctionResult number;
+
+begin
+  select c*cost as Total
+  into FunctionResult
+  from lawyer natural join(
+  select lid ,count(*) as c
+  from claims natural join lawyer
+  where claim_status = 'at court' and lid=id1
+  group by lid);
+
+   return FunctionResult;
+
+end claims_salary_function;
+
+
+
+
+
+create or replace function permit_salary_function(id1 in number)
+  return number is FunctionResult number;
+
+begin
+  select c*cost as Total
+  into FunctionResult
+  from lawyer natural join(
+  select lid ,count(*) as c
+  from building_permit natural join lawyer
+  where permit_status = 'in process' and lid=id1
+  group by lid);
+
+  return FunctionResult;
+
+end permit_salary_function;
